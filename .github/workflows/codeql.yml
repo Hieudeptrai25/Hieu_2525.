@@ -57,7 +57,7 @@ void Menu() {
 	setColor(10);
 	cout << "                                              * QUAN LY THU PHI QUOC LO 1A *                                    " << endl;
 	setColor(6);
-	cout << "                                   ========================MENU========================                         " << endl;
+	cout << "                             ========================MENU========================                         " << endl;
     cout << "                                 =            1.Dien thong tin xe                   =                         " << endl;
     cout << "                                 =            2.Them thong tin xe                   =                         " << endl;
     cout << "                                 =            3.Xuat thong tin xe                   =                         " << endl;
