@@ -3,46 +3,100 @@
 #include <string>
 #include <windows.h>
 using namespace std;
-class Vehicle {
+
+class XeMay {
+public:
+    string Kieu_xe() const {
+        return "Xe may";
+    }
+    int Tinh_phi() const {
+        return 20000;
+    }
+};
+
+class XeOto {
+public:
+    string Kieu_xe() const {
+        return "Xe o to";
+    }
+    int Tinh_phi() const {
+        return 30000;
+    }
+};
+
+class XeVan {
+public:
+    string Kieu_xe() const {
+        return "Xe Van";
+    }
+    int Tinh_phi() const {
+        return 44000;
+    }
+};
+
+class XeTai {
+public:
+    string Kieu_xe() const {
+        return "Xe tai";
+    }
+    int Tinh_phi() const {
+        return 80000;
+    }
+};
+
+class XeContainer {
+public:
+    string Kieu_xe() const {
+        return "Xe Container";
+    }
+    int Tinh_phi() const {
+        return 160000;
+    }
+};
+
+class Vehicle : public XeMay, public XeOto, public XeVan, public XeTai, public XeContainer {
 private:
     string Bien_so_xe;
-    double Trong_luong;  
+    double Trong_luong;
 public:
-    Vehicle(string bienso, double trongluong): 
-	Bien_so_xe(bienso), 
-	Trong_luong(trongluong) {}
+    Vehicle(string bienso, double trongluong) : Bien_so_xe(bienso), Trong_luong(trongluong) {}
+    
     string getBienSoXe() const {
-        return Bien_so_xe ;
+        return Bien_so_xe;
     }
+    
     double getTrongLuong() const {
         return Trong_luong;
     }
+    
     string Kieu_xe() const {
         if (Trong_luong < 1) {
-            return "Xe may";
+            return XeMay::Kieu_xe();
         } else if (Trong_luong < 3) {
-            return "Xe o to";
+            return XeOto::Kieu_xe();
         } else if (Trong_luong < 5) {
-            return "Xe Van";
+            return XeVan::Kieu_xe();
         } else if (Trong_luong < 10) {
-            return "Xe tai";
+            return XeTai::Kieu_xe();
         } else {
-            return "Xe Container";
+            return XeContainer::Kieu_xe();
         }
     }
+    
     int Tinh_phi() const {
         if (Trong_luong < 1) {
-            return 20000;
+            return XeMay::Tinh_phi();
         } else if (Trong_luong < 3) {
-            return 30000;
+            return XeOto::Tinh_phi();
         } else if (Trong_luong < 5) {
-            return 44000;
+            return XeVan::Tinh_phi();
         } else if (Trong_luong < 10) {
-            return 80000;
+            return XeTai::Tinh_phi();
         } else {
-            return 160000;
+            return XeContainer::Tinh_phi();
         }
     }
+    
     void Thong_tin_xe() const {
         cout << "Bien so xe: " << Bien_so_xe << endl;
         cout << "Trong luong (tan): " << Trong_luong << endl;
@@ -50,14 +104,16 @@ public:
         cout << "Phi can thu (VND): " << Tinh_phi() << endl;
     }
 };
+
 void setColor(int color) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
+
 void Menu() {
-	setColor(10);
-	cout << "                                              * QUAN LY THU PHI QUOC LO 1A *                                    " << endl;
-	setColor(6);
-	cout << "                             ========================MENU========================                         " << endl;
+    setColor(10);
+    cout << "                                            * QUAN LY THU PHI QUOC LO 1A *                                    " << endl;
+    setColor(6);
+    cout << "                                 ========================MENU========================                         " << endl;
     cout << "                                 =            1.Dien thong tin xe                   =                         " << endl;
     cout << "                                 =            2.Them thong tin xe                   =                         " << endl;
     cout << "                                 =            3.Xuat thong tin xe                   =                         " << endl;
@@ -66,11 +122,13 @@ void Menu() {
     cout << "                                 =            6.Sua thong tin xe                    =                         " << endl;
     cout << "                                 =            7.Tong so xe trong ngay               =                         " << endl;
     cout << "                                 =            8.Tong so tien thu duoc trong ngay    =                         " << endl;
-    cout << "                                 =            9.Thoat                               =                         " << endl;
+    cout << "                                 =            9.Xuat bao cao cuoi ngay              =                         " << endl;
+    cout << "                                 =            10.Thoat                              =                         " << endl;
     cout << "                                 ====================================================                         " << endl;
     setColor(2);
     cout << "                                 VUI LONG NHAP VAO LUA CHON: ";
 }
+
 bool Bien_so_da_ton_tai(const string& bienso) {
     ifstream inputFile("vehicles.txt");
     if (!inputFile) {
@@ -89,8 +147,9 @@ bool Bien_so_da_ton_tai(const string& bienso) {
     inputFile.close();
     return false;
 }
+
 void Dien_thong_tin() {
-	string bienso;
+    string bienso;
     double trongluong;
     setColor(15);
     cout << "Nhap bien so xe: ";
@@ -98,19 +157,20 @@ void Dien_thong_tin() {
     cout << "Nhap trong luong xe (tan): ";
     cin >> trongluong;
     Vehicle vehicle(bienso, trongluong);
-    ofstream outputFile("vehicles.txt",ios::app);
-        if (!outputFile) {
-    	    setColor(12);
-            cout << "Mo file that bai." << endl;
-            return;
-        }
-        outputFile << vehicle.getBienSoXe() << " " << vehicle.getTrongLuong() << endl;
-        outputFile.close();
-        setColor(10);
-        cout << "Dien thong tin xe thanh cong." << endl;
+    ofstream outputFile("vehicles.txt", ios::app);
+    if (!outputFile) {
+        setColor(12);
+        cout << "Mo file that bai." << endl;
+        return;
+    }
+    outputFile << vehicle.getBienSoXe() << " " << vehicle.getTrongLuong() << endl;
+    outputFile.close();
+    setColor(10);
+    cout << "Dien thong tin xe thanh cong." << endl;
 }
-void Them_xe(){
-	string bienso;
+
+void Them_xe() {
+    string bienso;
     double trongluong;
     while (true) {
         setColor(15);
@@ -137,47 +197,49 @@ void Them_xe(){
     setColor(10);
     cout << "Them thong tin xe thanh cong." << endl;
 }
-void Xuat_xe(){
-	ifstream inputFile("vehicles.txt");
-        if (!inputFile) {
+
+void Xuat_xe() {
+    ifstream inputFile("vehicles.txt");
+    if (!inputFile) {
+        setColor(12);
+        cout << "Mo file that bai." << endl;
+    }
+    string bienso;
+    double trongluong;
+    setColor(10);
+    cout << "Bien so xe\tTrong luong (tan)\tKieu xe\t\tPhi can thu (VND)" << endl;
+    while (inputFile >> bienso >> trongluong) {
+        Vehicle vehicle(bienso, trongluong);
+        setColor(15);
+        cout << bienso << "\t\t" << trongluong << "\t\t\t" << vehicle.Kieu_xe() << "\t\t" << vehicle.Tinh_phi() << endl;
+        ofstream outputFile("vehicles_output.txt", ios::app);
+        if (!outputFile) {
             setColor(12);
-            cout << "Mo file that bai." << endl;
+            cout << "Loi khong the doc file." << endl;
+            return;
         }
-        string bienso;
-        double trongluong;
-        setColor(10);
-        cout << "Bien so xe\tTrong luong (tan)\tKieu xe\t\tPhi can thu (VND)" << endl;
-        while (inputFile >> bienso >> trongluong) {
-            Vehicle vehicle(bienso, trongluong);
-            setColor(15);
-            cout << bienso << "\t\t" << trongluong << "\t\t\t" << vehicle.Kieu_xe() << "\t\t" << vehicle.Tinh_phi() << endl;
-            ofstream outputFile("vehicles_output.txt", ios::app);
-                if (!outputFile) {
-                    setColor(12);
-                    cout << "Loi khong the doc file." << endl;
-                    return;
-                }
-                outputFile << "Bien so xe\tTrong luong (tan)\tKieu xe\t\tPhi can thu (VND)" << endl;
-                outputFile << bienso << "\t\t\t" << trongluong << "\t\t\t\t\t" << vehicle.Kieu_xe() << "\t\t\t" << vehicle.Tinh_phi() << endl;
-            outputFile.close();
-        }
+        outputFile << "Bien so xe\tTrong luong (tan)\tKieu xe\t\tPhi can thu (VND)" << endl;
+        outputFile << bienso << "\t\t\t" << trongluong << "\t\t\t\t\t" << vehicle.Kieu_xe() << "\t\t\t" << vehicle.Tinh_phi() << endl;
+        outputFile.close();
+    }
     inputFile.close();
 }
+
 void Tim_xe() {
-	string Bien_so_xe;
+    string Bien_so_xe;
     setColor(10);
     cout << "Nhap vao bien so xe can tim kiem: ";
     cin >> Bien_so_xe;
     ifstream inputFile("vehicles.txt");
-        if (!inputFile) {
-            setColor(12);
-            cout << "Mo file that bai." << endl;
-            return;
-        }
-        string bienso;
-        double trongluong;
-        bool found = false;
-        while (inputFile >> bienso >> trongluong) {
+    if (!inputFile) {
+        setColor(12);
+        cout << "Mo file that bai." << endl;
+        return;
+    }
+    string bienso;
+    double trongluong;
+    bool found = false;
+    while (inputFile >> bienso >> trongluong) {
         if (bienso == Bien_so_xe) {
             Vehicle vehicle(bienso, trongluong);
             setColor(15);
@@ -187,25 +249,26 @@ void Tim_xe() {
         }
     }
     if (!found) {
-    	setColor(15);
+        setColor(15);
         cout << "Phuong tien voi bien so: " << Bien_so_xe << " khong the tim thay." << endl;
     }
     inputFile.close();
 }
+
 void Xoa_xe() {
-	string Bien_so_xe;
+    string Bien_so_xe;
     setColor(10);
     cout << "Nhap vao bien so xe can xoa: ";
     cin >> Bien_so_xe;
     ifstream inputFile("vehicles.txt");
     if (!inputFile) {
-    	setColor(12);
+        setColor(12);
         cout << "Mo file that bai." << endl;
         return;
     }
     ofstream tempFile("temp.txt");
     if (!tempFile) {
-    	setColor(12);
+        setColor(12);
         cout << "Mo file that bai." << endl;
         return;
     }
@@ -215,8 +278,7 @@ void Xoa_xe() {
     while (inputFile >> bienso >> trongluong) {
         if (bienso != Bien_so_xe) {
             tempFile << bienso << " " << trongluong << endl;
-        } 
-		else {
+        } else {
             found = true;
         }
     }
@@ -228,10 +290,11 @@ void Xoa_xe() {
         setColor(15);
         cout << "Phuong tien voi bien so xe: " << Bien_so_xe << " da xoa thanh cong." << endl;
     } else {
-    	setColor(12);
+        setColor(12);
         cout << "Phuong tien voi bien so: " << Bien_so_xe << " khong the tim thay." << endl;
     }
 }
+
 void Sua_xe() {
     string Bien_so_xe;
     setColor(10);
@@ -273,12 +336,13 @@ void Sua_xe() {
         cout << "Phuong tien voi bien so xe: " << Bien_so_xe << " khong tim thay." << endl;
     }
 }
+
 int* So_xe_trong_ngay() {
     ifstream inputFile("vehicles.txt");
     if (!inputFile) {
-    	setColor(12);
+        setColor(12);
         cout << "Mo file that bai." << endl;
-        return 0 ;
+        return 0;
     }
     int* Dem_so_xe = new int[5](); 
     string bienso;
@@ -286,24 +350,25 @@ int* So_xe_trong_ngay() {
     while (inputFile >> bienso >> trongluong) {
         int kieu;
         if (trongluong < 1) {
-            kieu = 0; 
+            kieu = 0; // 0: Xe may
         } else if (trongluong < 3) {
-            kieu = 1; 
+            kieu = 1; // 1: O to
         } else if (trongluong < 5) {
-            kieu = 2; 
+            kieu = 2; // 2: Xe Van
         } else if (trongluong < 10) {
-            kieu = 3; 
+            kieu = 3; // 3: Xe tai
         } else {
-            kieu = 4; 
+            kieu = 4; // 4: Xe Container
         }
         Dem_so_xe[kieu]++;
     }
     inputFile.close();
     return Dem_so_xe;
 }
-void display_So_xe_trong_ngay(const int* Dem_so_xe) {
+
+void Xuat_so_xe_trong_ngay(const int* Dem_so_xe) {
     if (Dem_so_xe == 0) {
-    	setColor(12);
+        setColor(12);
         cout << "Du lieu khong ton tai." << endl;
         return;
     }
@@ -311,12 +376,13 @@ void display_So_xe_trong_ngay(const int* Dem_so_xe) {
     cout << "\nSo xe trong ngay:" << endl;
     string Kieu[] = {"Xe may", "Xe o to", "Xe Van", "Xe tai", "Xe container"};
     for (int i = 0; i < 5; ++i) {
-    	setColor(15);
+        setColor(15);
         cout << Kieu[i] << ": " << Dem_so_xe[i] << endl;
     }
-     delete[] Dem_so_xe;
+    delete[] Dem_so_xe;
 }
-int Tong_tien_trong_ngay() { 
+
+int Tong_tien_trong_ngay() {
     ifstream inputFile("vehicles.txt");
     string bienso;
     double trongluong;
@@ -337,15 +403,37 @@ int Tong_tien_trong_ngay() {
         Tong += S;
     }
     setColor(15);
-    cout << "Tong tien phi thu duoc trong ngay (VND): " << Tong << endl; 
+    cout << "Tong tien phi thu duoc trong ngay (VND): " << Tong << endl;
     inputFile.close();
     return Tong;
 }
-void MENU(){
-	int choice;
+
+void Xuat_bao_cao_cuoi_ngay() {
+    int* Dem_so_xe = So_xe_trong_ngay();
+    int Tong_tien = Tong_tien_trong_ngay();
+    ofstream File_bao_cao("bao_cao_cuoi_ngay.txt");
+    if (!File_bao_cao) {
+        setColor(12);
+        cout << "Mo file bao cao that bai." << endl;
+        return;
+    }
+    File_bao_cao << "BAO CAO CUOI NGAY" << endl;
+    string Kieu[] = {"Xe may", "Xe o to", "Xe Van", "Xe tai", "Xe container"};
+    for (int i = 0; i < 5; ++i) {
+        File_bao_cao << Kieu[i] << ": " << Dem_so_xe[i] << endl;
+    }
+    File_bao_cao << "Tong tien phi thu duoc trong ngay (VND): " << Tong_tien << endl;
+    File_bao_cao.close();
+    setColor(15);
+    cout << "Bao cao cuoi ngay da duoc xuat ra file 'bao_cao_cuoi_ngay.txt'." << endl;
+    delete[] Dem_so_xe;
+}
+
+void MENU() {
+    int choice;
     string Bien_so;
     do {
-    	system("cls");
+        system("cls");
         Menu();
         cin >> choice;
         switch (choice) {
@@ -358,7 +446,7 @@ void MENU(){
                 Them_xe();
                 system("pause");
                 break;
-            }    
+            }
             case 3: {
                 Xuat_xe();
                 system("pause");
@@ -375,35 +463,41 @@ void MENU(){
                 break;
             }
             case 6: {
-            	Sua_xe();
-            	system("pause");
-            	break;
-            }
-            case 7: {
-            	  int* Dem_so_xe = So_xe_trong_ngay();
-                display_So_xe_trong_ngay(Dem_so_xe);
+                Sua_xe();
                 system("pause");
                 break;
             }
-		      	case 8: {
+            case 7: {
+                int* Dem_so_xe = So_xe_trong_ngay();
+                Xuat_so_xe_trong_ngay(Dem_so_xe);
+                system("pause");
+                break;
+            }
+            case 8: {
                 Tong_tien_trong_ngay();
-				        system("pause"); 
+                system("pause");
                 break;
             }
             case 9: {
-            	  setColor(15);
+                Xuat_bao_cao_cuoi_ngay();
+                system("pause");
+                break;
+            }
+            case 10: {
+                setColor(15);
                 cout << "Thoat khoi chuong trinh." << endl;
                 system("pause");
                 break;
+            }
             default:
-            	  setColor(12);
+                setColor(12);
                 cout << "Lua chon khong ton tai. Lam on hay thu lai." << endl;
                 system("pause");
-            }    
         }
-    } while (choice != 9);
+    } while (choice != 10);
 }
+
 int main() {
     MENU();
-return 0;
+    return 0;
 }
