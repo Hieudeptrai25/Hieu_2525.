@@ -10,7 +10,7 @@ public:
         return "Xe may";
     }
     int Tinh_phi() const {
-        return 20000;
+        return 0;
     }
 };
 
